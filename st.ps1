@@ -1,3 +1,8 @@
+if (-NOT ([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole] "Administrator")) {
+    Write-Warning "You must run this script as an Administrator!"
+    break
+}
+
 function Install-Dependencies {
 
     $ytdlp = Get-Command yt-dlp -ErrorAction SilentlyContinue
