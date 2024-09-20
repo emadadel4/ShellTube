@@ -111,8 +111,11 @@ function Download-Video {
         [string]$format
     )
 
-    # Start download
-    yt-dlp -f "bestvideo[height<=$quality]+bestaudio" --merge-output-format mp4 --console-title "$url"
+    if ($url -notmatch "playlist\?list=") {
+        yt-dlp -f "bestvideo[height<=$quality]+bestaudio" --merge-output-format mp4 --console-title "$url"
+    } else {
+        yt-dlp -f "bestvideo[height<=$quality]+bestaudio" -o '%(playlist)s/%(playlist_index)s - %(title)s.%(ext)s' $url
+    }
     
 }
 
