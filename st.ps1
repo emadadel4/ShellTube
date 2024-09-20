@@ -211,5 +211,5 @@ switch ($f) {
 Write-Host "Download Complate." -ForegroundColor Green
 
 
-$continue = Read-Host "Do you want to download another file? (yes/no)"
-} while ($continue -eq "y" -or "yes")
+$continue = Read-Host "Do you want to download another file? (y/n)"
+} while ($continue -eq "y" )
