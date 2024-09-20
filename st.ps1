@@ -1,0 +1,189 @@
+function Install-Dependencies {
+
+    $ytdlp = Get-Command yt-dlp -ErrorAction SilentlyContinue
+    $ffmpeg = Get-Command ffmpeg -ErrorAction SilentlyContinue
+    $choco = Get-Command choco -ErrorAction SilentlyContinue
+
+    if (-not $ytdlp -or -not $ffmpeg) {
+
+        # Check if Chocolatey is installed
+        if (-not $choco) {
+            Write-Host "Chocolatey is not installed. Installing Chocolatey..." -ForegroundColor Yellow
+            # Install Chocolatey
+            Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.SecurityProtocolType]::Tls12; iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))
+        }
+
+        Write-Host "Install missing dependencies..." -ForegroundColor Yellow
+
+        # Install missing dependencies
+        if (-not $ytdlp) {
+            choco install yt-dlp -y 
+        }
+
+        if (-not $ffmpeg) {
+            choco install ffmpeg -y
+        }
+    } else {
+        Write-Host "You good to go!"
+        Start-Sleep -Seconds 1
+        Clear-Host
+    }
+}
+
+Install-Dependencies
+
+Write-Host " 
+ ____  _   _ _____ _     _       _____ _   _ ____  _____ 
+/ ___|| | | | ____| |   | |     |_   _| | | | __ )| ____|
+\___ \| |_| |  _| | |   | |       | | | | | |  _ \|  _|  
+ ___) |  _  | |___| |___| |___    | | | |_| | |_) | |___ 
+|____/|_| |_|_____|_____|_____|   |_|  \___/|____/|_____|
+
+                 Made by Emad Adel
+            Github & Telegram | @emadadel4
+                #StandWithPalestine 
+" -ForegroundColor Yellow
+
+
+
+
+
+
+# functions
+function Download-MP3 {
+
+    <#
+        .SYNOPSIS
+        Downloads an MP3 file from a given URL.
+
+        .DESCRIPTION
+        This function uses yt-dlp to download an audio file in MP3 format with the highest available quality (320k).
+        You need to provide the URL of the video/audio and specify the format as an optional parameter.
+    #>
+
+    param (
+        [string]$url,
+        [string]$format
+    )
+
+    # Start download
+    yt-dlp -x --audio-format mp3 --console-title --audio-quality 320k "$url"
+    
+}
+
+function Download-Video {
+
+     <#
+        .SYNOPSIS
+        Downloads a video from a given URL with specified quality.
+
+        .DESCRIPTION
+        This function downloads a video using yt-dlp. You can provide the URL of the video, the desired video quality, and the format.
+        The video will be downloaded in the best available quality up to the specified resolution and merged with the best available audio.
+        The final output is saved in MP4 format.
+    #>
+
+    param (
+        [string]$url,
+        [string]$quality,
+        [string]$format
+    )
+
+    # Start download
+    yt-dlp -f "bestvideo[height<=$quality]+bestaudio" --merge-output-format mp4 --console-title "$url"
+    
+}
+
+function Get-Quality {
+
+    <#
+        .SYNOPSIS
+        Fetches available video quality options from a given URL.
+
+        .DESCRIPTION
+        This function retrieves the available video qualities using yt-dlp for the specified URL.
+        It displays the available quality options to the user, prompts for a selection, and returns the chosen quality.
+        The user must enter a number corresponding to the desired video quality.
+    #>
+
+    param($url)
+    
+    Write-Host "fetching quality..." -ForegroundColor Yellow
+    $availableQualities = yt-dlp -F $url | Select-String -Pattern '(\d+)p' | ForEach-Object { $_.Matches.Groups[1].Value }
+
+
+    # Create a hashtable for quality options
+    $quality = @{}
+    $i = 1
+
+    foreach ($q in $availableQualities | Sort-Object -Unique) {
+        $quality[$i] = $q
+        $i++
+    }
+
+    # User selection
+    do {
+        Write-Host "Which quality do you want?"
+        foreach ($key in $quality.Keys | Sort-Object) {
+            Write-Host "$key - $($quality[$key])"
+        }
+        $choice = Read-Host "Enter the number corresponding to the quality"
+        if ([int]$choice -in $quality.Keys) {
+            $Q = $quality[[int]$choice]
+        } else {
+            Write-Host "Invalid choice. Please select a valid option."
+        }
+    } until ([int]$choice -in $quality.Keys)
+
+    return $Q
+
+}
+
+
+do {
+    $input = Read-Host "`n` Enter YouTube video link"
+    
+    if (-not [string]::IsNullOrWhiteSpace($input) -and $input.StartsWith("https://")) {
+    } else {
+        if ([string]::IsNullOrWhiteSpace($input)) {
+            Write-Host "Cannot be empty. Please try again." -ForegroundColor Yellow
+        } else {
+            Write-Host "This is not a video link. Please try again." -ForegroundColor Yellow
+        }
+    }
+} while ([string]::IsNullOrWhiteSpace($input) -or -not $input.StartsWith("https://"))
+
+
+$format = @{
+
+    1 = "mp4"
+    2 = "mp3" 
+}
+
+do {
+    Write-Host "Which format do you want?"
+    foreach ($key in $format.Keys | Sort-Object) {
+        Write-Host "$key - $($format[$key])"
+    }
+    $choice = Read-Host "Enter the number corresponding to the format"
+    if ([int]$choice -in $format.Keys) {
+        $f = $format[[int]$choice]
+    } else {
+        Write-Host "Invalid choice. Please select a valid option."
+    }
+} until ([int]$choice -in $format.Keys)
+
+
+switch ($f) {
+    "mp3" { 
+        Download-MP3 -url $input
+     }
+    "mp4" { 
+        $q = Get-Quality -url $input
+        Write-Host "Downloading, it depends on your internet speed." -ForegroundColor Yellow
+        Download-Video -url $input -quality $q
+     }
+    Default { Write-Host "NOTHING!" }
+}
+
+Write-Host "Download Complate." -ForegroundColor Green
