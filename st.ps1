@@ -1,3 +1,9 @@
+<#
+.NOTES
+    Author         : Emad Adel
+    GitHub         : https://github.com/emadadel4
+#>
+
 if (-NOT ([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole] "Administrator")) {
     Write-Warning "You must run this script as an Administrator!"
     break
@@ -14,16 +20,16 @@ function Install-Dependencies {
         # Check if Chocolatey is installed
         if (-not $choco) {
             Write-Host "Installing missing dependencies for the first time; it won't take a minute..." -ForegroundColor Yellow
-            Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.SecurityProtocolType]::Tls12; iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1')) | Out-Null
+            Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.SecurityProtocolType]::Tls12; iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1')) *> $null
         }
 
         # Install missing dependencies
         if (-not $ytdlp) {
-            choco install yt-dlp -y  | Out-Null
+            choco install yt-dlp -y  *> $null
         }
 
         if (-not $ffmpeg) {
-            choco install ffmpeg -y | Out-Null
+            choco install ffmpeg -y *> $null
         }
 
         Write-Host "You good to go!" -ForegroundColor Yellow
