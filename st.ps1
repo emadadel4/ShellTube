@@ -13,20 +13,17 @@ function Install-Dependencies {
 
         # Check if Chocolatey is installed
         if (-not $choco) {
-            Write-Host "Chocolatey is not installed. Installing Chocolatey..." -ForegroundColor Yellow
-            # Install Chocolatey
-            Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.SecurityProtocolType]::Tls12; iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))
+            Write-Host "Installing missing dependencies for the first time; it won't take a minute." -ForegroundColor Yellow
+            Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.SecurityProtocolType]::Tls12; iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1')) | Out-Null
         }
-
-        Write-Host "Installing missing dependencies for the first time; it won't take a minute." -ForegroundColor Yellow
 
         # Install missing dependencies
         if (-not $ytdlp) {
-            choco install yt-dlp -y 
+            choco install yt-dlp -y  | Out-Null
         }
 
         if (-not $ffmpeg) {
-            choco install ffmpeg -y
+            choco install ffmpeg -y | Out-Null
         }
 
         Write-Host "You good to go!" -ForegroundColor Yellow
