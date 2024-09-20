@@ -4,9 +4,14 @@
     GitHub         : https://github.com/emadadel4
 #>
 
-if (-NOT ([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole] "Administrator")) {
-    Write-Warning "You must run this script as an Administrator!"
-    break
+$currentPid = [System.Security.Principal.WindowsIdentity]::GetCurrent()
+$principal = [System.Security.Principal.WindowsPrincipal]$currentPid
+$administrator = [System.Security.Principal.WindowsBuiltInRole]::Administrator
+
+if (-not $principal.IsInRole($administrator))
+{
+    Start-Process -FilePath "PowerShell" -ArgumentList $myInvocation.MyCommand.Definition -Verb "runas"
+    exit
 }
 
 function Install-Dependencies {
@@ -52,6 +57,7 @@ if (-not (Test-Path -Path $DownloadsFolder)) {
 # Set the location to the folder
 Set-Location -Path $DownloadsFolder
 
+Clear-Host
 
 do {
 
