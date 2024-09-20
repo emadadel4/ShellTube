@@ -13,7 +13,7 @@ function Install-Dependencies {
 
         # Check if Chocolatey is installed
         if (-not $choco) {
-            Write-Host "Installing missing dependencies for the first time; it won't take a minute." -ForegroundColor Yellow
+            Write-Host "Installing missing dependencies for the first time; it won't take a minute..." -ForegroundColor Yellow
             Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.SecurityProtocolType]::Tls12; iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1')) | Out-Null
         }
 
