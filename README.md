@@ -1,5 +1,4 @@
 # ShellTube
- Download yotube videos.
 
  <p>
   <p align="center">
