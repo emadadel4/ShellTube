@@ -3,7 +3,7 @@
 
  <p>
   <p align="center">
-    <img src="https://raw.githubusercontent.com/emadadel4/ShellTube/main/demo.PNG" alt="ShellTube" style="max-width: 100%;">
+    <img src="https://raw.githubusercontent.com/emadadel4/ShellTube/main/demo.jpg" alt="ShellTube" style="max-width: 100%;">
 </p>
 
 ## Usage
