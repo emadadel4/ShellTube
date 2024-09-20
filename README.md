@@ -1,9 +1,19 @@
-# ShellTube
+
+<p align="center">
+  <a href="Support.md" rel="nofollow">
+    <img src="https://raw.githubusercontent.com/Safouene1/support-palestine-banner/master/StandWithPalestine.svg" alt="Ceasefire Now" style="width:40%;">
+  </a>
+</p>
+
+
 
  <p>
   <p align="center">
     <img src="https://raw.githubusercontent.com/emadadel4/ShellTube/main/demo.jpg" alt="ShellTube" style="max-width: 100%;">
 </p>
+
+### ShellTube Overview
+ShellTube is a command-line utility that allows users to effortlessly download videos from YouTube. Built with ease of use in mind, ShellTube provides a straightforward interface for fetching video content directly.
 
 ## Usage
 
