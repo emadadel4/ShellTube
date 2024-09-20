@@ -163,7 +163,8 @@ function Get-Quality {
 
 
 do {
-    $input = Read-Host "`n` Enter YouTube video link"
+
+    $input = Read-Host "`n` Enter youtube Video or Playlist link"
     
     if (-not [string]::IsNullOrWhiteSpace($input) -and $input.StartsWith("https://")) {
     } else {
