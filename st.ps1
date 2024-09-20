@@ -13,7 +13,7 @@ function Install-Dependencies {
             Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.SecurityProtocolType]::Tls12; iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))
         }
 
-        Write-Host "Install missing dependencies..." -ForegroundColor Yellow
+        Write-Host "Installing missing dependencies for the first time; it won't take a minute." -ForegroundColor Yellow
 
         # Install missing dependencies
         if (-not $ytdlp) {
@@ -24,13 +24,25 @@ function Install-Dependencies {
             choco install ffmpeg -y
         }
     } else {
-        Write-Host "You good to go!"
-        Start-Sleep -Seconds 1
-        Clear-Host
+        #Write-Host "You good to go!"
     }
+
+    Write-Host "You good to go!" -ForegroundColor Yellow
+    Start-Sleep -Seconds 1
+    Clear-Host
 }
 
 Install-Dependencies
+
+$DownloadsFolder = "C:\Users\$Env:USERNAME\Documents\ShellTube"
+
+# Check if the folder exists, and create it if it doesn't
+if (-not (Test-Path -Path $DownloadsFolder)) {
+    New-Item -Path $DownloadsFolder -ItemType Directory -Force | Out-Null
+}
+
+# Set the location to the folder
+Set-Location -Path $DownloadsFolder
 
 Write-Host " 
  ____  _   _ _____ _     _       _____ _   _ ____  _____ 
@@ -43,11 +55,6 @@ Write-Host "
             Github & Telegram | @emadadel4
                 #StandWithPalestine 
 " -ForegroundColor Yellow
-
-
-
-
-
 
 # functions
 function Download-MP3 {
