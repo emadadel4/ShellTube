@@ -209,7 +209,11 @@ switch ($f) {
 }
 
 Write-Host "Download Complate." -ForegroundColor Green
+Write-Host "Saved in $DownloadsFolder" -ForegroundColor Green
+
 
 
 $continue = Read-Host "Do you want to download another file? (y/n)"
 } while ($continue -eq "y" )
+
+Start-Process ($DownloadsFolder)
