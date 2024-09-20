@@ -44,6 +44,9 @@ if (-not (Test-Path -Path $DownloadsFolder)) {
 # Set the location to the folder
 Set-Location -Path $DownloadsFolder
 
+
+do {
+
 Write-Host " 
  ____  _   _ _____ _     _       _____ _   _ ____  _____ 
 / ___|| | | | ____| |   | |     |_   _| | | | __ )| ____|
@@ -194,3 +197,7 @@ switch ($f) {
 }
 
 Write-Host "Download Complate." -ForegroundColor Green
+
+
+$continue = Read-Host "Do you want to download another file? (yes/no)"
+} while ($continue -eq "y" -or "yes")
