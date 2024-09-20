@@ -23,13 +23,13 @@ function Install-Dependencies {
         if (-not $ffmpeg) {
             choco install ffmpeg -y
         }
+
+        Write-Host "You good to go!" -ForegroundColor Yellow
+        Clear-Host
+
     } else {
         #Write-Host "You good to go!"
     }
-
-    Write-Host "You good to go!" -ForegroundColor Yellow
-    Start-Sleep -Seconds 1
-    Clear-Host
 }
 
 Install-Dependencies
