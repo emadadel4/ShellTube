@@ -57,8 +57,6 @@ if (-not (Test-Path -Path $DownloadsFolder)) {
 # Set the location to the folder
 Set-Location -Path $DownloadsFolder
 
-Clear-Host
-
 do {
 
 Write-Host " 
