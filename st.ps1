@@ -66,7 +66,6 @@ Write-Host "
  ___) |  _  | |___| |___| |___    | | | |_| | |_) | |___ 
 |____/|_| |_|_____|_____|_____|   |_|  \___/|____/|_____|
                  Made by Emad Adel
-            Github/Telegram @emadadel4
                 #StandWithPalestine 
 " -ForegroundColor Yellow
 
