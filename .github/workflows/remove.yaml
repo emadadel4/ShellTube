@@ -25,8 +25,8 @@ jobs:
     - name: Delete st.ps1 if it exists
       if: steps.check_existence.outputs.st_exists == 'true'
       run: |
-        git config --global user.email "emadadel4-action@noreply.github.com"
-        git config --global user.name "emadadel4-action"
+        git config --global user.name "github-actions[bot]"
+        git config --global user.email "github-actions[bot]@users.noreply.github.com"
         git rm st.ps1
         git commit -m "Delete st.ps1 as it is not allowed"
         git push origin HEAD:${{ github.ref }}
