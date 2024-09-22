@@ -3,7 +3,7 @@ name: Delete File on Push
 on: 
   push:
     branches:
-      - main  # Specify the branch to trigger the action on
+      - main  # Specify the branch you want to trigger the action on
 
 jobs:
   delete_file:
@@ -22,12 +22,8 @@ jobs:
         run: |
           if [ -f "st.ps1" ]; then
             git rm "st.ps1"
-            git commit -m "Delete st.ps1 as it is not allowed"
+            git commit -m "Remove file.txt if it exists"
+            git push
           else
             echo "File does not exist."
-          
-      - name: Push changes
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          git push "https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git"
+          fi
