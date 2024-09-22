@@ -59,6 +59,6 @@ jobs:
 
           append_body: false
           files: ./st.ps1
-          prerelease: true
+          prerelease: false
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
