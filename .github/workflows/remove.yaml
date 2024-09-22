@@ -1,4 +1,4 @@
-name: Remove winutil.ps1 if included in a Push
+name: Remove st.ps1 if included in a Push
 
 on:
   push:
