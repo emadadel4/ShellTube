@@ -67,7 +67,7 @@ Write-Host "
 |____/|_| |_|_____|_____|_____|   |_|  \___/|____/|_____|
 
                  Made by Emad Adel
-            Github & Telegram | @emadadel4
+            Github/Telegram @emadadel4
                 #StandWithPalestine 
 " -ForegroundColor Yellow
 
