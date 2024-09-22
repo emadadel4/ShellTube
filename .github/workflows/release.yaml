@@ -1,4 +1,4 @@
-name: Release 
+name: Release
 
 permissions:
   contents: write
@@ -55,17 +55,18 @@ jobs:
         with:
           tag_name: ${{ env.VERSION }}
           name: Release ${{ env.VERSION }}
+
           append_body: false
           files: ./st.ps1
           prerelease: false
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Commit and Push Updated st.ps1 to Repo
+      - name: Commit st.ps1 to repository
         run: |
-          git config user.name "github-actions"
-          git config user.email "github-actions@github.com"
+          git config user.name "GitHub Actions"
+          git config user.email "actions@github.com"
           git add st.ps1
-          git commit -m "Update st.ps1 to latest release $env:VERSION"
+          git commit -m "Upload st.ps1 from release $env:VERSION"
           git push origin main
         shell: pwsh
