@@ -22,13 +22,13 @@ jobs:
           echo "st_exists=false" >> $GITHUB_OUTPUT
         fi
 
-    - name: Delete winutil.ps1 if it exists
+    - name: Delete st.ps1 if it exists
       if: steps.check_existence.outputs.winutil_exists == 'true'
       run: |
         git config --global user.email "shelltube-action@noreply.github.com"
         git config --global user.name "shelltube-action"
         git rm st.ps1
-        git commit -m "Delete shelltube.ps1 as it is not allowed"
+        git commit -m "Delete st.ps1 as it is not allowed"
         git push origin HEAD:${{ github.ref }}
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
