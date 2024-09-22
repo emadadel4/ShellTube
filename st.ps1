@@ -66,6 +66,7 @@ Write-Host "
  ___) |  _  | |___| |___| |___    | | | |_| | |_) | |___ 
 |____/|_| |_|_____|_____|_____|   |_|  \___/|____/|_____|
                  Made by Emad Adel
+            Github/Telegram @emadadel4
                 #StandWithPalestine 
 " -ForegroundColor Yellow
 
@@ -215,7 +216,7 @@ Write-Host "Saved in $DownloadsFolder" -ForegroundColor Green
 
 
 
-$continue = Read-Host "Do you want to download another file? (y/n)"
+$continue = Read-Host "Do you want to download another ? (y/n)"
 } while ($continue -eq "y" )
 
 Start-Process ($DownloadsFolder)
