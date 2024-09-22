@@ -1,4 +1,4 @@
-name: Release
+name: Release 
 
 permissions:
   contents: write
@@ -16,7 +16,8 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v4
 
-      - name: Set Version to Today's Date
+
+      - name: Set Version to Todays Date
         id: extract_version
         run: |
           $version = (Get-Date -Format "yy.MM.dd")
@@ -49,30 +50,24 @@ jobs:
           name: shelltube
           path: ./st.ps1
 
+      - name: Generate Release Notes
+        id: generate_notes
+        uses: release-drafter/release-drafter@v6
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          config-name: release-drafter.yml
+          version: ${{ env.VERSION }} # Pass the version variable
+
       - name: Create and Upload Release
         id: create_release
         uses: softprops/action-gh-release@v2
         with:
           tag_name: ${{ env.VERSION }}
           name: Release ${{ env.VERSION }}
+
           append_body: false
           files: ./st.ps1
           prerelease: false
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Download st.ps1 from latest release
-        run: |
-          $release = Invoke-RestMethod -Uri "https://api.github.com/repos/${{ github.repository }}/releases/latest" -Headers @{Authorization = "token ${{ secrets.GITHUB_TOKEN }}"} | ConvertFrom-Json
-          $asset = $release.assets | Where-Object { $_.name -eq "st.ps1" }
-          Invoke-WebRequest -Uri $asset.browser_download_url -OutFile "st.ps1"
-        shell: pwsh
-
-      - name: Commit st.ps1 to repository
-        run: |
-          git config user.name "GitHub Actions"
-          git config user.email "actions@github.com"
-          git add st.ps1
-          git commit -m "Copy st.ps1 from latest release $env:VERSION"
-          git push origin main
-        shell: pwsh
