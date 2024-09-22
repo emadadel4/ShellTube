@@ -3,17 +3,14 @@
     Author         : Emad Adel
     GitHub         : https://github.com/emadadel4
 #>
-
 $currentPid = [System.Security.Principal.WindowsIdentity]::GetCurrent()
 $principal = [System.Security.Principal.WindowsPrincipal]$currentPid
 $administrator = [System.Security.Principal.WindowsBuiltInRole]::Administrator
-
 if (-not $principal.IsInRole($administrator))
 {
     Start-Process -FilePath "PowerShell" -ArgumentList $myInvocation.MyCommand.Definition -Verb "runas"
     exit
 }
-
 function Install-Dependencies {
 
     $ytdlp = Get-Command yt-dlp -ErrorAction SilentlyContinue
