@@ -1,34 +1,36 @@
-name: Remove winutil.ps1 if included in a Push
+name: Delete st.ps1 on Push
 
 on:
   push:
     branches:
-      - '**'
+      - main  # Change this if you want to target other branches
 
 jobs:
-  check-and-delete-file:
+  delete_file:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v4
+      # Step 1: Check out the repository
+      - name: Checkout repository
+        uses: actions/checkout@v3
 
-    - name: Check if winutil.ps1 exists
-      id: check_existence
-      run: |
-        if [ -f "st.ps1" ]; then
-          echo "winutil_exists=true" >> $GITHUB_OUTPUT
-        else
-          echo "winutil_exists=false" >> $GITHUB_OUTPUT
-        fi
+      # Step 2: Remove the file if it exists
+      - name: Remove st.ps1 if it exists
+        run: |
+          if [ -f "st.ps1" ]; then
+            git rm st.ps1
+          fi
 
-    - name: Delete winutil.ps1 if it exists
-      if: steps.check_existence.outputs.winutil_exists == 'true'
-      run: |
-        git config --global user.email "winutil-action@noreply.github.com"
-        git config --global user.name "winutil-action"
-        git rm st.ps1
-        git commit -m "Delete winutil.ps1 as it is not allowed"
-        git push origin HEAD:${{ github.ref }}
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      # Step 3: Commit the changes
+      - name: Commit changes
+        run: |
+          git config --global user.name "GitHub Action"
+          git config --global user.email "action@github.com"
+          git commit -m "Delete st.ps1 if exists" || echo "No changes to commit"
+
+      # Step 4: Push the changes using GITHUB_TOKEN
+      - name: Push changes
+        run: |
+          git push
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
