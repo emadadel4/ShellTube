@@ -1,11 +1,13 @@
-name: Pre-Release 
+name: Release 
 
 permissions:
   contents: write
   actions: read
 
 on:
-  workflow_dispatch: # Manual trigger added
+  push:
+    branches:
+      - main  # Or whichever branch you want to track
 
 jobs:
   build-runspace:
@@ -53,7 +55,7 @@ jobs:
         uses: softprops/action-gh-release@v2
         with:
           tag_name: ${{ env.VERSION }}
-          name: Pre-Release ${{ env.VERSION }}
+          name: Release ${{ env.VERSION }}
 
           append_body: false
           files: ./st.ps1
