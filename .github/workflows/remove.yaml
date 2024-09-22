@@ -1,4 +1,4 @@
-name: Remove shelltube.ps1 from repo
+name: Remove winutil.ps1 if included in a Push
 
 on:
   push:
@@ -23,10 +23,10 @@ jobs:
         fi
 
     - name: Delete st.ps1 if it exists
-      if: steps.check_existence.outputs.winutil_exists == 'true'
+      if: steps.check_existence.outputs.st_exists == 'true'
       run: |
-        git config --global user.email "emadadel1920@gmail.com"
-        git config --global user.name "emadadel4"
+        git config --global user.email "emadadel4-action@noreply.github.com"
+        git config --global user.name "emadadel4-action"
         git rm st.ps1
         git commit -m "Delete st.ps1 as it is not allowed"
         git push origin HEAD:${{ github.ref }}
