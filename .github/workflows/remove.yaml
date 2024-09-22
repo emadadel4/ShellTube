@@ -3,7 +3,10 @@ name: Delete st.ps1 on Push
 on:
   push:
     branches:
-      - main  # Change this if you want to target other branches
+      - main  # Change this if needed
+
+permissions:
+  contents: write  # Ensure GITHUB_TOKEN has write permissions
 
 jobs:
   delete_file:
