@@ -1,34 +1,33 @@
-name: Remove st.ps1
+name: Delete File on Push
 
-on:
+on: 
   push:
     branches:
-      - '**'
+      - main  # Specify the branch to trigger the action on
 
 jobs:
-  check-and-delete-file:
+  delete_file:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v4
+      - name: Checkout code
+        uses: actions/checkout@v3
 
-    - name: Check if st.ps1 exists
-      id: check_existence
-      run: |
-        if [ -f "st.ps1" ]; then
-          echo "st_exists=true" >> $GITHUB_OUTPUT
-        else
-          echo "st_exists=false" >> $GITHUB_OUTPUT
-        fi
+      - name: Set up Git
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
 
-    - name: Delete st.ps1 if it exists
-      if: steps.check_existence.outputs.st_exists == 'true'
-      run: |
-        git config --global user.name "github-actions[bot]"
-        git config --global user.email "github-actions[bot]@users.noreply.github.com"
-        git rm st.ps1
-        git commit -m "Delete st.ps1 as it is not allowed"
-        git push origin HEAD:${{ github.ref }}
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Delete file if it exists
+        run: |
+          if [ -f "st.ps1" ]; then
+            git rm "st.ps1"
+            git commit -m "Delete st.ps1 as it is not allowed"
+          else
+            echo "File does not exist."
+          
+      - name: Push changes
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          git push "https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git"
