@@ -50,22 +50,14 @@ jobs:
           name: shelltube
           path: ./st.ps1
 
-      - name: Generate Release Notes
-        id: generate_notes
-        uses: release-drafter/release-drafter@v6
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          config-name: release-drafter.yml
-          version: ${{ env.VERSION }} # Pass the version variable
-
       - name: Create and Upload Release
         id: create_release
         uses: softprops/action-gh-release@v2
         with:
           tag_name: ${{ env.VERSION }}
           name: Release ${{ env.VERSION }}
-
+          body: |
+            ${{ steps.generate_notes.outputs.body }}
           append_body: false
           files: ./st.ps1
           prerelease: false
