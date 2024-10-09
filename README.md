@@ -23,5 +23,6 @@ ShellTube is a command-line utility that allows users to effortlessly download v
 <li>Choose "PowerShell" or "Terminal" and paste any of the following commands:</li>
 </ol>
 
+ <pre><code>irm cutt.ly/shelltube | iex</code></pre>
+or
  <pre><code>irm https://github.com/emadadel4/shelltube/releases/latest/download/st.ps1 | iex</code></pre>
-
