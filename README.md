@@ -26,3 +26,7 @@ ShellTube is a command-line utility that allows users to effortlessly download v
  <pre><code>irm cutt.ly/shelltube | iex</code></pre>
 or
  <pre><code>irm https://github.com/emadadel4/shelltube/releases/latest/download/st.ps1 | iex</code></pre>
+
+
+### It's available on ITT (Install and Tweaks Tool) too. 
+[Click here](https://github.com/emadadel4/ITT)
